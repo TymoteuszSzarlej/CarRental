@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{%block title%}
+Rejestracja użytkownika
+{%endblock%}
+
+{%block appLink%}
+<a href="{% url 'login' %}">Użytkownik</a>
+{%endblock%}
+
+{%block moduleLink%}
+<a href="{% url 'register' %}">Rejestracja</a>
+{%endblock%}
+
+{%block appName%}
+Użytkownik
+{%endblock%}
+
+{%block moduleName%}
+Rejestracja
+{%endblock%}
+
+
+
+{% block content %}
+<h2>Rejestracja użytkownika</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Zarejestruj się</button>
+</form>
+<a href="{% url 'login' %}">Masz już konto? Zaloguj się tutaj.</a>
+
+{% endblock %}
+

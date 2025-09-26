@@ -1,0 +1,35 @@
+{%extends 'base.html'%}
+{%block title%}
+Lista samochodów
+{%endblock%}
+
+{%block appLink%}
+<a href="{% url 'cars' %}">Samochody</a>
+{%endblock%}
+
+{%block moduleLink%}
+<a href="{% url 'cars' %}">Lista samochodów</a>
+{%endblock%}
+
+{%block appName%}
+Samochody
+{%endblock%}
+
+{%block moduleName%}
+Lista samochodów
+{%endblock%}
+
+{%block content%}
+{%for car in cars%}
+<div class="car-item">
+    <h3>{{ car.name }}</h3>
+    <p>Marka: {{ car.brand }}</p>
+    <p>Model: {{ car.model }}</p>
+    <p>Rok produkcji: {{ car.year }}</p>
+    <p>Cena: {{ car.price }} PLN</p>
+    <img src="{{ car.image.url }}" alt="{{ car.name }}" style="width: 200px; height: auto;">
+    <a href="{% url 'car_detail' car.id %}">Szczegóły</a>
+</div>
+{%endfor%}
+{%endblock%}
+

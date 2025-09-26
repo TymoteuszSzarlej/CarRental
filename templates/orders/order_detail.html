@@ -1,0 +1,57 @@
+{%extends "base.html" %}
+
+
+{%block title%}
+Szczegóły zamówienia
+{%endblock%}
+
+{%block appLink%}
+<a href="{% url 'orders_list' %}">Zamówienia</a>
+{%endblock%}
+
+{%block moduleLink%}
+<a href="{% url 'order_detail' order.id %}">Szczegóły zamówienia</a>
+{%endblock%}
+
+{%block appName%}
+Zamówienia
+{%endblock%}
+
+{%block moduleName%}
+Szczegóły zamówienia
+{%endblock%}
+
+
+{% block content %}
+<h2>Szczegóły zamówienia</h2>
+
+<ul>
+    <li><strong>ID zamówienia:</strong> {{ order.id }}</li>
+    <li><strong>Samochód:</strong> {{ order.car }}</li>
+    <section>
+        <div class="content-card">
+            <h3>Okres wynajmu</h3>
+
+                <li><strong>Data rozpoczęcia:</strong> {{ order.start_date }}</li>
+                <li><strong>Data zakończenia:</strong> {{ order.end_date }}</li>
+            
+        </div>
+        <div class="content-card">
+            <h3><strong>Długość wynajmu</strong> w dniach</h3>
+            <p>{{ order.get_rental_duration }} dni</p>
+        </div>
+    </section>
+    <li><strong>Status:</strong> {{ order.status }}</li>
+</ul>
+<div style="margin-top: 1em;" class="content-card">
+    <strong>Łączna cena:</strong> {{ order.total_price }} PLN
+</div>
+
+<form action="{% url 'cancel_order' order.id %}" method="post" style="margin-top: 1em;">
+    {% csrf_token %}
+    <button type="submit">Anuluj zamówienie</button>
+</form>
+
+<a href="{% url 'orders_list' %}">Powrót do listy zamówień</a>
+{% endblock %}
+

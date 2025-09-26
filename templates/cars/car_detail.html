@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+
+{%block title%}
+Szczegóły samochodu {{ car.brand }} {{ car.model }}
+{%endblock%}
+
+{%block appLink%}
+<a href="{% url 'cars' %}">Samochody</a>
+{%endblock%}
+
+{%block moduleLink%}
+<a href="{% url 'car_detail' car.id %}">Szczegóły samochodu {{car.brand}} {{car.model}}</a>
+{%endblock%}
+
+{%block appName%}
+Samochody
+{%endblock%}
+
+{%block moduleName%}
+Szczegóły samochodu {{ car.brand }} {{ car.model }}
+{%endblock%}
+
+{%block content%}
+<h2>{{ car.brand }} {{ car.model }}</h2>
+<img src="{{ car.image.url }}" alt="{{ car.brand }} {{ car.model }}" width="300">
+
+<ul>
+    <li><strong>Marka:</strong> {{ car.brand }}</li>
+    <li><strong>Model:</strong> {{ car.model }}</li>
+    <li><strong>Rok produkcji:</strong> {{ car.year }}</li>
+    <li><strong>Spalanie:</strong> {{ car.fuel_usage }} l/100km</li>
+    <li><strong>Cena:</strong> {{ car.price }} PLN</li>
+    <li><strong>Limit przebiegu:</strong> {{ car.mileage_limit }} km</li>
+    <li><strong>Wartość:</strong> {{ car.value }} PLN</li>
+    <li><strong>Dostępność:</strong> {{ car.availability|yesno:"Dostępny,Niedostępny" }}</li>
+    <li><strong>Ubezpieczenie ważne do:</strong> {{ car.insurance_expiry_date }}</li>
+    <li><strong>Wyposażenie:</strong> {{ car.get_equipment_display }}</li>
+</ul>
+
+<form action="{% url 'create_order' %}" method="get">
+    <input type="hidden" name="car_id" value="{{ car.id }}">
+    <button type="submit">Zamów</button>
+</form>
+{%endblock%}
+

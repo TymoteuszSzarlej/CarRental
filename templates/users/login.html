@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+
+{%block title%}
+Logowanie
+{%endblock%}
+
+{%block appLink%}
+<a href="{% url 'login' %}">Panel użytkownika</a>
+{%endblock%}
+
+{%block moduleLink%}
+<a href="{% url 'login' %}">Logowanie</a>
+{%endblock%}
+
+{%block appName%}
+Panel użytkownika
+{%endblock%}
+
+{%block moduleName%}
+Logowanie
+{%endblock%}
+
+{%block content%}
+<form method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+    <div>
+        <label for="username">Nazwa użytkownika:</label>
+        <input type="text" id="username" name="username" required>
+    </div>
+    <div>
+        <label for="password">Hasło:</label>
+        <input type="password" id="password" name="password" required>
+    </div>
+    <button type="submit">Zaloguj</button>
+</form>
+<a href="{% url 'register' %}">Nie masz konta? Zarejestruj się tutaj.</a>
+{%endblock%}
+

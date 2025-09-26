@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CarRental - {% block title %}Strona główna{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Zmienne CSS dla spójności */
+        :root {
+            --primary: #0066cc;
+            --primary-dark: #004d99;
+            --secondary: #00a8e8;
+            --accent: #00d4aa;
+            --dark: #1a1a2e;
+            --darker: #0f0f1a;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --success: #28a745;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        /* Reset i podstawowe style */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--darker);
+            color: var(--light);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Nagłówek */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            padding: 1.5rem 0;
+            box-shadow: var(--box-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMTAwIDUwYzI3LjYxIDAgNTAgMjIuMzkgNTAgNTBzLTIyLjM5IDUwLTUwIDUwLTUwLTIyLjM5LTUwLTUwIDIyLjM5LTUwIDUwLTUweiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMDUpIiBzdHJva2Utd2lkdGg9IjIiLz48L3N2Zz4=');
+            opacity: 0.1;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-icon {
+            font-size: 2.5rem;
+            color: var(--accent);
+        }
+
+        .logo-text {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        /* Nawigacja */
+        nav {
+            background: var(--dark);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            padding: 1rem 0.5rem;
+            font-weight: 500;
+            position: relative;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: var(--accent);
+            transition: var(--transition);
+            border-radius: 3px 3px 0 0;
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        .nav-link:hover {
+            color: var(--accent);
+        }
+
+        .nav-separator {
+            color: var(--gray);
+            font-weight: 300;
+        }
+
+        /* Dropdown menu */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropbtn {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--accent) 100%);
+            color: var(--darker);
+            border: none;
+            padding: 0.7rem 1.2rem;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+            box-shadow: var(--box-shadow);
+        }
+
+        .dropbtn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            background: var(--dark);
+            min-width: 200px;
+            box-shadow: var(--box-shadow);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            z-index: 1000;
+            margin-top: 0.5rem;
+        }
+
+        .dropdown-content a, 
+        .dropdown-content p {
+            padding: 0.8rem 1rem;
+            display: block;
+            transition: var(--transition);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .dropdown-content a:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--accent);
+        }
+
+        .dropdown-content p {
+            color: var(--accent);
+            font-weight: 600;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* Główna zawartość */
+        main {
+            flex: 1;
+            padding: 2rem 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .content-card {
+            background: var(--dark);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 2rem;
+            border-left: 4px solid var(--accent);
+        }
+
+        .app-title {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+
+        .module-title {
+            font-size: 1.4rem;
+            margin-bottom: 1.5rem;
+            color: var(--secondary);
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Stopka */
+        footer {
+            background: var(--dark);
+            padding: 2rem 0;
+            margin-top: auto;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .footer-link {
+            transition: var(--transition);
+        }
+
+        .footer-link:hover {
+            color: var(--accent);
+        }
+
+        .copyright {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* Responsywność */
+        @media (max-width: 768px) {
+            .header-content, .nav-container, .footer-content {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .dropdown-content {
+                position: static;
+                margin-top: 0.5rem;
+            }
+
+            .content-card {
+                padding: 1.5rem;
+            }
+        }
+
+        /* Dodatkowe style dla elementów w treści */
+        h1, h2, h3, h4, h5, h6 {
+            margin-bottom: 1rem;
+            line-height: 1.3;
+        }
+
+        h1 { font-size: 2.2rem; }
+        h2 { font-size: 1.8rem; }
+        h3 { font-size: 1.5rem; }
+        h4 { font-size: 1.3rem; }
+        h5 { font-size: 1.1rem; }
+        h6 { font-size: 1rem; }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--accent) 100%);
+            color: var(--darker);
+            padding: 0.7rem 1.5rem;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--secondary);
+            color: var(--secondary);
+        }
+
+        .btn-outline:hover {
+            background: var(--secondary);
+            color: var(--darker);
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius);
+            background: var(--darker);
+            color: var(--light);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        button {
+            border: 2px solid var(--accent);
+            background: rgb(0, 0, 0, 0.6);
+            color: var(--primary);
+            padding: 0.7rem 1.5rem;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        a {
+            color: var(--accent);
+        }
+
+        img {
+            width: 100%;
+            height: auto;
+            display: block;
+            margin-bottom: 1rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1rem;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        th {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        ul {
+            list-style: disc inside;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-car logo-icon"></i>
+                <h1 class="logo-text">CarRental</h1>
+            </div>
+            <div class="header-actions">
+                <a href="tel:+48123456789" class="btn btn-outline">
+                    <i class="fas fa-phone"></i> +48 123 456 789
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <nav>
+        <div class="nav-container">
+            <div class="nav-links">
+                <a href="{% url 'cars' %}" class="nav-link">Strona główna</a>
+                <span class="nav-separator">/</span>
+                {% block appLink %}<a href="#" class="nav-link">Aplikacja</a>{% endblock %}
+                <span class="nav-separator">/</span>
+                {% block moduleLink %}<a href="#" class="nav-link">Moduł</a>{% endblock %}
+            </div>
+            
+            <div class="nav-links">
+                <a href="{% url 'orders_list' %}" class="btn">
+                    <i class="fas fa-list"></i> Moje zamówienia
+                </a>
+                
+                <div class="dropdown">
+                    <button class="dropbtn">
+                        <i class="fas fa-user"></i> Menu
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="dropdown-content">
+                        {% if user.is_authenticated %}
+                            <p><i class="fas fa-user-circle"></i> {{ user.username }}</p>
+                            <a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Wyloguj</a>
+                        {% else %}
+                            <a href="{% url 'login' %}"><i class="fas fa-sign-in-alt"></i> Zaloguj</a>
+                            <a href="{% url 'register' %}"><i class="fas fa-user-plus"></i> Zarejestruj</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="container">
+            <div class="content-card">
+                <h2 class="app-title">{% block appName %}Nazwa aplikacji{% endblock %}</h2>
+                <h3 class="module-title">{% block moduleName %}Nazwa modułu{% endblock %}</h3>
+                
+                {% block content %}
+                <p>To jest przykładowa zawartość szablonu podstawowego. Zastąp ten blok własną treścią.</p>
+                {% endblock %}
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <table>
+        <div class="footer-content">
+            <thead>
+            <div class="footer-links">
+                <tr>
+<th>                <a href="#" class="footer-link">Regulamin</a>
+</th>
+<th>                <a href="#" class="footer-link">Polityka prywatności</a>
+</th>
+<th>                <a href="#" class="footer-link">Kontakt</a>
+</th>                </tr>
+            </thead>
+            </div>
+            <br>
+            <tbody><tr>
+            <div class="copyright">
+                &copy; 2025 CarRental. Wszelkie prawa zastrzeżone.
+                <p>Przygotował <strong>Tymoteusz Szarlej</strong> w ramach laboratorium z <strong>Architektury oprogramowania</strong> w ramach 4. semestru studiów inżynierskich na kierunku <strong>Informatyka Ekonomiczna</strong> w roku akademickim <strong>2024-2025</strong> na <strong>Akademii Nauk Stosowanych w Nowym Targu</strong>.</p>
+            </div></tr></tbody>
+        </table>
+        </div>
+    </footer>
+
+    <script>
+        // Prosty skrypt do obsługi menu na urządzeniach mobilnych
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropdowns = document.querySelectorAll('.dropdown');
+            
+            dropdowns.forEach(dropdown => {
+                dropdown.addEventListener('click', function(e) {
+                    if (window.innerWidth <= 768) {
+                        const content = this.querySelector('.dropdown-content');
+                        const isOpen = content.style.display === 'block';
+                        
+                        // Zamknij wszystkie dropdowny
+                        document.querySelectorAll('.dropdown-content').forEach(item => {
+                            item.style.display = 'none';
+                        });
+                        
+                        // Otwórz aktualny, jeśli był zamknięty
+                        if (!isOpen) {
+                            content.style.display = 'block';
+                            e.stopPropagation();
+                        }
+                    }
+                });
+            });
+            
+            // Zamknij dropdowny po kliknięciu poza nimi
+            document.addEventListener('click', function() {
+                if (window.innerWidth <= 768) {
+                    document.querySelectorAll('.dropdown-content').forEach(item => {
+                        item.style.display = 'none';
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<style>
+
+
+    .order-item {
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+    }
+    .order-item.pending {
+        background-color: rgb(255, 255, 0, 0.4);
+    }
+    .order-item.confirmed {
+        background-color: rgb(0, 255, 255, 0.4);
+    }
+    .order-item.completed {
+        background-color: rgb(0, 255, 0, 0.4);
+    }
+    .order-item.cancelled {
+        background-color: rgb(255, 0, 0, 0.4);
+    }
+</style>
+
+{% extends "base.html" %}
+
+{% block title%}
+Lista zamówień
+{% endblock%}
+
+{% block appLink %}
+<a href="{% url 'orders_list' %}">Zamówienia</a>
+{% endblock%}
+
+
+{% block moduleLink%}
+<a href="{% url 'orders_list' %}">Lista zamówień</a>
+{% endblock%}
+
+{% block appName%}
+Zamówienia
+{% endblock%}
+
+{% block moduleName%}
+Lista zamówień
+{% endblock%}
+
+{% block content %}
+<h2>Moje zamówienia</h2>
+
+{% if orders %}
+    <ul>
+        {% for order in orders %}
+            <li class="order-item {{ order.status|lower }}">
+                <strong>ID:</strong> {{ order.id }} |
+                <strong>Samochód:</strong> {{ order.car }} |
+                <strong>Od:</strong> {{ order.start_date }} |
+                <strong>Do:</strong> {{ order.end_date }} |
+                <strong>Status:</strong> {{ order.status }}
+                <a href="{% url 'order_detail' order.id %}">Szczegóły</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Nie masz jeszcze żadnych zamówień.</p>
+{% endif %}
+
+<a href="{% url 'create_order' %}">Złóż nowe zamówienie</a>
+{% endblock %}
+

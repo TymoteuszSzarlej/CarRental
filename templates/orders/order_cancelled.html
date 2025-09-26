@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title%}
+Zamówienie anulowane
+{% endblock %}
+
+{% block appLink %}
+<a href="{% url 'orders_list' %}">Zamówienia</a>
+{%endblock%}
+
+
+
+{% block moduleLink %}
+<a href="{% url 'cancel_order' order.id %}">Anulowane zamówienie</a>
+{% endblock %}
+
+{% block appName %}
+Zamówienia
+{% endblock %}
+
+{% block moduleName %}
+Anulowane zamówienie
+{% endblock %}
+
+{% block content %}
+    <h2>Zamówienie anulowane</h2>
+    <p>Zamówienie nr {{ order.id }} zostało anulowane.</p>
+    <a href="{% url 'orders_list' %}">Powrót do listy zamówień</a>
+{% endblock %}
+

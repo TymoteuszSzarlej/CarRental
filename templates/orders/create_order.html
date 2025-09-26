@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title%}
+Złóż zamówienie
+{% endblock%}
+
+{% block appLink %}
+<a href="{% url 'orders_list' %}">Zamówienia</a>
+{% endblock%}
+
+
+{% block moduleLink%}
+<a href="{% url 'create_order' %}">Złóż zamówienie</a>
+{% endblock%}
+
+{% block appName%}
+Zamówienia
+{% endblock%}
+
+{% block moduleName%}
+Złóż zamówienie
+{% endblock%}
+
+
+
+{% block content %}
+<h2>Złóż zamówienie</h2>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Zamów</button>
+</form>
+
+<a href="{% url 'orders_list' %}">Powrót do listy zamówień</a>
+{% endblock %}
+
